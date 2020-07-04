@@ -1,12 +1,41 @@
-# Use osixia/light-baseimage
-# sources: https://github.com/osixia/docker-light-baseimage
-FROM osixia/light-baseimage:1.2.0
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+FROM debian:buster-slim
+
+COPY base-image /container
+RUN /container/build.sh
+
+ARG AIRFLOW_OPENLDAP_VERSION
+ARG OPENLDAP_VERSION
+ARG COMMIT_SHA
 
 ARG LDAP_OPENLDAP_GID
 ARG LDAP_OPENLDAP_UID
 
 ARG PQCHECKER_VERSION=2.0.0
 ARG PQCHECKER_MD5=c005ce596e97d13e39485e711dcbc7e1
+
+MAINTAINER "Apache Airflow Community <dev@airflow.apache.org>"
+
+ENV LANG="en_US.UTF-8" \
+    LANGUAGE="en_US:en" \
+    LC_ALL="en_US.UTF-8"
+
 
 # Add openldap user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 # If explicit uid or gid is given, use it.
@@ -56,6 +85,13 @@ ADD environment /container/environment/99-default
 
 # Expose default ldap and ldaps ports
 EXPOSE 389 636
+
+LABEL org.apache.airflow.component="openldap"
+LABEL org.apache.airflow.openldap.version="${OPENLDAP_VERSION}"
+LABEL org.apache.airflow.airflow_openldap.version="${AIRFLOW_OPENLDAP_VERSION}"
+LABEL org.apache.airflow.commit_sha="${COMMIT_SHA}"
+
+ENTRYPOINT ["/container/tool/run"]
 
 # Put ldap config and database dir in a volume to persist data.
 # VOLUME /etc/ldap/slapd.d /var/lib/ldap
