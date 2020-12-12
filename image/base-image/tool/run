@@ -269,7 +269,7 @@ def print_env_files_order(file_extensions):
 			to_print+='\nTo see how this files are processed and environment variables values,\n'
 			to_print+='run this container with \'--loglevel debug\''
 
-		info('Environment files will be proccessed in this order : \n' + to_print)
+		info('Environment files will be processed in this order : \n' + to_print)
 
 def import_env_files():
 
@@ -846,7 +846,7 @@ parser.add_argument('--keepalive', dest = 'keepalive',
 	help = 'Keep alive container if all startup files and process exited without error.')
 parser.add_argument('--keepalive-force', dest = 'keepalive_force',
 	action = 'store_const', const = True, default = False,
-	help = 'Keep alive container in all circonstancies.')
+	help = 'Keep alive container in all circumstances.')
 parser.add_argument('-l', '--loglevel', type=str, choices=["none","error","warning","info","debug","trace"], dest = 'log_level', default = "info",
 	help = 'Log level (default: info)')
 

@@ -25,7 +25,7 @@ file_env() {
     log-helper trace "${fileVar} was defined"
 
                 val="$(< "${!fileVar}")"
-    log-helper debug "${var} was repalced with the contents of ${fileVar} (the value was: ${val})"
+    log-helper debug "${var} was replaced with the contents of ${fileVar} (the value was: ${val})"
 
     export "$var"="$val"
         fi
@@ -66,12 +66,12 @@ CUR_USER_UID=`id -u openldap || true`
 
 LDAP_UIDGID_CHANGED=false
 if [ "$LDAP_OPENLDAP_UID" != "$CUR_USER_UID" ]; then
-    log-helper info "CUR_USER_UID (${CUR_USER_UID}) does't match LDAP_OPENLDAP_UID (${LDAP_OPENLDAP_UID}), adjusting..."
+    log-helper info "CUR_USER_UID (${CUR_USER_UID}) doesn't match LDAP_OPENLDAP_UID (${LDAP_OPENLDAP_UID}), adjusting..."
     usermod -o -u "$LDAP_OPENLDAP_UID" openldap
     LDAP_UIDGID_CHANGED=true
 fi
 if [ "$LDAP_OPENLDAP_GID" != "$CUR_USER_GID" ]; then
-    log-helper info "CUR_USER_GID (${CUR_USER_GID}) does't match LDAP_OPENLDAP_GID (${LDAP_OPENLDAP_GID}), adjusting..."
+    log-helper info "CUR_USER_GID (${CUR_USER_GID}) doesn't match LDAP_OPENLDAP_GID (${LDAP_OPENLDAP_GID}), adjusting..."
     groupmod -o -g "$LDAP_OPENLDAP_GID" openldap
     LDAP_UIDGID_CHANGED=true
 fi
@@ -250,7 +250,7 @@ EOF
   fi
 
   if [ "${KEEP_EXISTING_CONFIG,,}" == "true" ]; then
-    log-helper info "/!\ KEEP_EXISTING_CONFIG = true configration will not be updated"
+    log-helper info "/!\ KEEP_EXISTING_CONFIG = true configuration will not be updated"
   else
     #
     # start OpenLDAP
@@ -271,7 +271,7 @@ EOF
       fi
     fi
 
-    # if the config was bootstraped with TLS
+    # if the config was bootstrapped with TLS
     # to avoid error (#6) (#36) and (#44)
     # we create fake temporary certificates if they do not exists
     if [ -e "$WAS_STARTED_WITH_TLS" ]; then
@@ -315,7 +315,7 @@ EOF
 
       log-helper info "Add bootstrap schemas..."
 
-      # add ppolicy schema
+      # add policy schema
       ldapadd -c -Y EXTERNAL -Q -H ldapi:/// -f /etc/ldap/schema/ppolicy.ldif 2>&1 | log-helper debug
 
       # convert schemas to ldif

@@ -1,7 +1,7 @@
 #!/bin/bash
 JSONSSL_FILE_DEFAULT="${CONTAINER_SERVICE_DIR}/ssl-tools/assets/certs/certs.json"
 
-JSONSSL_FILE=${JSONSSL_FILE:-} # don't set default immediatly because we print a warning in jsonssl-helper
+JSONSSL_FILE=${JSONSSL_FILE:-} # don't set default immediately because we print a warning in jsonssl-helper
 JSONSSL_HOSTNAME=${JSONSSL_HOSTNAME:-${HOSTNAME}}
 JSONSSL_PROFILE=${JSONSSL_PROFILE:-} # traefik / traefik_up_to_v1_6
 
