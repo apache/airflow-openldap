@@ -16,15 +16,16 @@
 # specific language governing permissions and limitations
 # under the License.
 set -euo pipefail
-DOCKERHUB_USER=${DOCKERHUB_USER:="apache"}
-DOCKERHUB_REPO=${DOCKERHUB_REPO:="airflow"}
+GITHUB_REPOSITORY=${GITHUB_REPOSITORY:="apache/airflow"}
+readonly GITHUB_REPOSITORY
+
 OPENLDAP_VERSION="2.4.50"
-AIRFLOW_OPENLDAP_VERSION="2020.07.10"
+AIRFLOW_OPENLDAP_VERSION="2021.07.04"
 COMMIT_SHA=$(git rev-parse HEAD)
 
 cd "$( dirname "${BASH_SOURCE[0]}" )" || exit 1
 
-TAG="${DOCKERHUB_USER}/${DOCKERHUB_REPO}:openldap-${AIRFLOW_OPENLDAP_VERSION}-${OPENLDAP_VERSION}"
+TAG="ghcr.io/${GITHUB_REPOSITORY}-openldap:${OPENLDAP_VERSION}-${AIRFLOW_OPENLDAP_VERSION}"
 
 cd image
 
@@ -33,6 +34,7 @@ docker build . \
     --build-arg "OPENLDAP_VERSION=${OPENLDAP_VERSION}" \
     --build-arg "AIRFLOW_OPENLDAP_VERSION=${AIRFLOW_OPENLDAP_VERSION}" \
     --build-arg "COMMIT_SHA=${COMMIT_SHA}" \
+    --label "org.opencontainers.image.source=https://github.com/${GITHUB_REPOSITORY}" \
     --tag "${TAG}"
 
 docker push "${TAG}"
